@@ -40,6 +40,43 @@ if (err) return console.log(err)
  })
 })
 
+app.get('/trier/:cle/:ordre', (req, res) => {
+	let cle = req.params.cle
+	let ordre = (req.params.ordre == 'asc' ? 1 : -1)
+	let cursor = db.collection('adresse').find().sort(cle,ordre).toArray(function(err, resultat){
+		ordre = !ordre;
+		res.render('adresses.ejs', {adresses: resultat, cle, ordre })
+	})
+});
+
+// app.post('/modifier', (req, res) => {
+// 	console.log('req.body' + req.body)
+// 	if (req.body['_id'] != )
+// 	{ 
+// 		console.log('sauvegarde') 
+// 		var oModif = {
+// 			"_id": ObjectID(req.body['_id']), 
+// 			nom: req.body.nom,
+// 			prenom:req.body.prenom, 
+// 			courriel:req.body.courriel, 
+// 			telephone:req.body.telephone
+// 		}
+// 		var util = require("util");
+// 		console.log('util = ' + util.inspect(oModif));
+// 	}
+// 	else
+// 	{
+// 		console.log('insert')
+// 		console.log(req.body)
+// 		var oModif = {
+// 			nom: req.body.nom,
+// 			prenom:req.body.prenom, 
+// 			courriel:req.body.courriel, 
+// 			telephone:req.body.telephone
+// 		}
+// 	}
+// })
+
 
 let db // variable qui contiendra le lien sur la BD
 
