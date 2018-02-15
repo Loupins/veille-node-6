@@ -1,0 +1,27 @@
+<form action="http://127.0.0.1:8081/ajouter" method="POST">
+	<label>Nom: </label><input type="text" name="nom">
+	<label>Prenom: </label><input type="text" name="prenom">
+	<label>Téléphone: </label><input type="text" name="telephone">
+	<label>Courriel: </label><input type="text" name="courriel">
+	<button type="submit">Soumettre</button>
+</form>
+<table class="tableau">
+ 	<% let noLigne = 0 %>
+ 	<% for(element of adresses) {%>
+ 	<% if(noLigne == 0){ %>
+  <tr>
+ 	<% noLigne++ %>
+ 	<% for(p in element) { %>
+ 		<th><%= p %></th>
+	<% } %>
+ </tr>
+ <% } %>
+ <tr id='<%= element["_id"] %>'>
+ 	<% for(p in element){ %>
+ 		<td><%= element[p] %></td>
+	<% } %>
+	<td><a href="#"><i class="far fa-save"></i></a></td>
+	<td><a href="/detruire/<%= element['_id']%>"><i class="fas fa-trash-alt"></i></a></td>
+ </tr>
+ <% } %>
+ </table>

@@ -2,36 +2,9 @@
 <html lang="fr">
 <%- include('composants/head') %>
 <body>
-	<h1>Application Node.js/Express/MongoDB</h1>
+	<%- include('composants/entete') %>
 	<%- include('composants/menu') %>
-	<form action="http://127.0.0.1:8081/ajouter" method="POST">
-		<label>Nom: </label><input type="text" name="nom">
-		<label>Prenom: </label><input type="text" name="prenom">
-		<label>Téléphone: </label><input type="text" name="telephone">
-		<label>Courriel: </label><input type="text" name="courriel">
-		<button type="submit">Soumettre</button>
-	</form>
-	<table class="tableau">
-		<% 
-		let noLigne = 0;
-		for(elm of adresses) {%>
-		<% if(noLigne == 0){%>
-		<tr>
-		<% 
-		noLigne++
-		for(p in elm) {%>
-			<th><%= p %></th>
-		 <% } %>
-		</tr>
-		<% } %>
-		<tr data-id='<%= elm["_id"] %>'>
-		<% for(p in elm) {%>
-			<td><%= elm[p] %></td>
-		 <% } %>
-		 	<td><a href=""><i class="far fa-edit"></i></a></td>
-		 	<td><a href=""><i class="fas fa-trash-alt"></i></a></td>
-		</tr>
-		<% } %>
-	</table>
+	<%- include('composants/adresses') %>
+	<%- include('composants/footer') %>
 </body>
 </html>
