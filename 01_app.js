@@ -12,23 +12,43 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.set('view engine', 'ejs'); // générateur de template
 
 ///////////////////////////////////// ROUTE ACCUEIL
-app.get('/', function (req, res) {
+app.get('/accueil', function(req,res) {
+	res.render('composants/accueil.ejs')
+})
+
+app.get('/adresses', function (req, res) {
    var cursor = db.collection('adresse')
                 .find().toArray(function(err, resultat){
 	if (err) return console.log(err)
  	console.log('util = ' + util.inspect(resultat));
 	 // transfert du contenu vers la vue index.ejs (renders)
 	 // affiche le contenu de la BD
-	res.render('gabarit_1.ejs', {adresses: resultat})
+	res.render('composants/adresses.ejs', {adresses: resultat})
 	}) 
 })
 
 app.post('/ajouter', (req, res) => {
-	db.collection('adresse').save(req.body, (err, result) => {
+	if(req.body._id ==""){
+		console.log("nouveau");
+		let objet ={
+			nom:req.body.nom,
+			prenom:req.body.prenom,
+			courriel: req.body.courriel,
+			telephone:req.body.telephone
+		}
+		db.collection('adresse').insert(objet, (err, result) => {
+		if (err) return console.log(err)
+			console.log('sauvegarder dans la BD')
+			res.redirect('/adresses')
+		})
+	}else{
+		db.collection('adresse').save(req.body, (err, result) => {
 		if (err) return console.log(err)
 		console.log('sauvegarder dans la BD')
-		res.redirect('/')
+		res.redirect('/adresses')
 	})
+	}
+	
 })
 
 app.get('/detruire/:id', (req, res) => {
@@ -36,7 +56,7 @@ app.get('/detruire/:id', (req, res) => {
  console.log(id)
  db.collection('adresse').findOneAndDelete({"_id": ObjectID(req.params.id)}, (err, resultat) => {
 if (err) return console.log(err)
- res.redirect('/')  // redirige vers la route qui affiche la collection
+ res.redirect('/adresses')  // redirige vers la route qui affiche la collection
  })
 })
 
@@ -45,7 +65,7 @@ app.get('/trier/:cle/:ordre', (req, res) => {
 	let ordre = (req.params.ordre == 'asc' ? 1 : -1)
 	let cursor = db.collection('adresse').find().sort(cle,ordre).toArray(function(err, resultat){
 		ordre = !ordre;
-		res.render('adresses.ejs', {adresses: resultat, cle, ordre })
+		res.render('composants/adresses.ejs', {adresses: resultat, cle, ordre })
 	})
 });
 
