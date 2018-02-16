@@ -28,6 +28,7 @@ app.get('/adresses', function (req, res) {
 })
 
 app.post('/ajouter', (req, res) => {
+	console.log(req.body._id)
 	if(req.body._id ==""){
 		console.log("nouveau");
 		let objet ={
@@ -36,13 +37,21 @@ app.post('/ajouter', (req, res) => {
 			courriel: req.body.courriel,
 			telephone:req.body.telephone
 		}
-		db.collection('adresse').insert(objet, (err, result) => {
+		db.collection('adresse').save(objet, (err, result) => {
 		if (err) return console.log(err)
 			console.log('sauvegarder dans la BD')
 			res.redirect('/adresses')
 		})
 	}else{
-		db.collection('adresse').save(req.body, (err, result) => {
+		console.log("modifier");
+		let objet = {
+			_id: ObjectID(req.body._id),
+			nom:req.body.nom,
+			prenom:req.body.prenom,
+			courriel: req.body.courriel,
+			telephone:req.body.telephone
+		}
+		db.collection('adresse').save(objet, (err, result) => {
 		if (err) return console.log(err)
 		console.log('sauvegarder dans la BD')
 		res.redirect('/adresses')

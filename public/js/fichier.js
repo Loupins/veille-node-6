@@ -1,18 +1,19 @@
 (function(){
 	$(".sauver").on( "click", function(event) {
 		event.preventDefault();
-		var parent = $(this).parent();
-		var identifiant = parent.eq(0);
-		var nom = parent.eq(1);
-		var prenom = parent.eq(2);
-		var telephone = parent.eq(3);
-		var courriel = parent.eq(4);
-		$("mon_formulaire_cache").eq(0).val(identifiant);
-		$("mon_formulaire_cache").eq(1).val(nom);
-		$("mon_formulaire_cache").eq(2).val(prenom);
-		$("mon_formulaire_cache").eq(3).val(telephone);
-		$("mon_formulaire_cache").eq(4).val(courriel);
-		$("mon_formulaire_cache").submit();
+		var parent = $(this).parent().parent();
+		var identifiant = parent.children().eq(0);
+		var nom = parent.children().eq(1);
+		var prenom = parent.children().eq(2);
+		var telephone = parent.children().eq(3);
+		var courriel = parent.children().eq(4);
+		console.log($("mon_formulaire_cache input").eq(0))
+		$(".mon_formulaire_cache input").eq(0).val(identifiant.text());
+		$(".mon_formulaire_cache input").eq(1).val(nom.text());
+		$(".mon_formulaire_cache input").eq(2).val(prenom.text());
+		$(".mon_formulaire_cache input").eq(3).val(telephone.text());
+		$(".mon_formulaire_cache input").eq(4).val(courriel.text());
+		$(".mon_formulaire_cache").submit();
 	});
 
 	$("tr th a").on( "click", function(event) {
